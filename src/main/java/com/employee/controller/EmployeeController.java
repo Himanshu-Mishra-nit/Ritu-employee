@@ -2,12 +2,14 @@ package com.employee.controller;
 
 import com.employee.dto.EmployeeDto;
 import com.employee.service.EmployeeService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -92,6 +94,23 @@ public class EmployeeController {
             if(employeeDto1!=null)
                 return ResponseEntity.ok(employeeDto1);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee with this name was not found");
+
+
+        }catch (Exception exception){
+            exception.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ERROR_MESSAGE);
+        }
+
+    }
+
+    @RequestMapping(method= RequestMethod.GET, path="/getAll")
+    public ResponseEntity<?> getAllEmployee(){
+        try{
+
+            List<EmployeeDto> employeeDto1 = employeeService.getAllEmployee();
+            if(CollectionUtils.isEmpty(employeeDto1))
+                return ResponseEntity.ok(employeeDto1);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Employee ");
 
 
         }catch (Exception exception){

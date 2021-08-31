@@ -3,6 +3,7 @@ package com.employee.service;
 import com.employee.dto.EmployeeDto;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 
 public interface EmployeeService {
@@ -21,4 +22,7 @@ public interface EmployeeService {
 
     @Transactional
     public EmployeeDto getEmployeeByName(String name);
+
+    @Transactional
+    List<EmployeeDto> getAllEmployee();
 }

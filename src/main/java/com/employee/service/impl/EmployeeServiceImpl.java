@@ -7,9 +7,12 @@ import com.employee.repository.EmployeeRepository;
 import com.employee.service.EmployeeService;
 import com.employee.utils.DateConverter;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -96,6 +99,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.getEmployeeByName(name);
         if (employee!=null)
             return EmployeeMapper.entityToDto(employee);
+        return null;
+    }
+
+    @Override
+    public List<EmployeeDto> getAllEmployee() {
+        try {
+
+            List<Employee> employee= (List<Employee>) employeeRepository.findAll();
+            List<EmployeeDto> employeeDtos = new ArrayList<>();
+            if(!CollectionUtils.isEmpty(employee)) {
+                employee.stream().forEach(emp->employeeDtos.add(EmployeeMapper.entityToDto(emp)));
+                return employeeDtos;
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
